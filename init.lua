@@ -25,7 +25,7 @@ require("lazy").setup({
     version = false,
   },
   install = {
-    colorscheme = { "tokyonight", "habamax" },
+    colorscheme = { "everforest", "tokyonight", "habamax" },
   },
   checker = {
     enabled = false,
@@ -46,3 +46,8 @@ require("lazy").setup({
     timeout = 600, -- 10分钟超时
   },
 })
+
+-- 启动彩虹光标效果
+vim.schedule(function()
+  require("rainbow_cursor").start()
+end)
