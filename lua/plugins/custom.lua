@@ -107,19 +107,19 @@ return {
     config = function()
       local sysinfo = require("utils.sysinfo")
 
-      -- 自定义主题配色
+      -- 自定义主题配色 (kanagawa wave 主题 - 柔和协调)
       local colors = {
-        bg       = "#1a1b26",
-        fg       = "#a9b1d6",
-        yellow   = "#e0af68",
-        cyan     = "#7dcfff",
-        green    = "#9ece6a",
-        orange   = "#ff9e64",
-        magenta  = "#bb9af7",
-        blue     = "#7aa2f7",
-        red      = "#f7768e",
-        darkblue = "#3b4261",
-        violet   = "#9d7cd8",
+        bg       = "#1F1F28",      -- sumiInk3 (背景)
+        fg       = "#DCD7BA",      -- fujiWhite (主文字)
+        yellow   = "#E6C384",      -- carpYellow (柔和黄)
+        cyan     = "#7FB4CA",      -- springBlue (天蓝)
+        green    = "#98BB6C",      -- springGreen (嫩绿)
+        orange   = "#FFA066",      -- surimiOrange (柔和橙)
+        magenta  = "#D27E99",      -- sakuraPink (樱花粉)
+        blue     = "#7E9CD8",      -- crystalBlue (水晶蓝)
+        red      = "#E46876",      -- waveRed (柔和红)
+        darkblue = "#2D4F67",      -- waveBlue2 (深蓝背景)
+        violet   = "#957FB8",      -- oniViolet (紫)
       }
 
       -- 自定义模式显示
@@ -343,7 +343,6 @@ return {
           return { fg = mode_color[mode] or colors.green, bg = colors.darkblue, gui = "bold" }
         end,
         padding = { left = 1, right = 1 },
-        separator = { left = "", right = "" },
       }
 
       -- 确保状态栏显示（LazyVim 启动页会隐藏它）
@@ -362,8 +361,8 @@ return {
       require("lualine").setup({
         options = {
           theme = "auto",
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
           disabled_filetypes = {
             statusline = { "dashboard", "alpha", "starter" },
             winbar = {},
