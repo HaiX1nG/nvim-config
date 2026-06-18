@@ -29,9 +29,10 @@ local keymaps = {
   { "<C-x>", '"+x', desc = "Cut", mode = { "n", "v" } },
   { "<C-a>", "ggVG", desc = "Select All" },
 
-  -- 撤销重做 - 使用 Ctrl 键
+  -- 撤销重做 - VSCode 风格
   { "<C-z>", "u", desc = "Undo" },
-  { "<C-r>", "<cmd>redo<cr>", desc = "Redo" },
+  { "<C-S-z>", "<cmd>redo<cr>", desc = "Redo" },
+  { "<C-y>", "<cmd>redo<cr>", desc = "Redo (Alt)" },
 
   -- 查找替换
   { "<D-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find in File (⌘F)" },
@@ -42,27 +43,24 @@ local keymaps = {
   -- 窗口管理（Command 键）
   -- ========================================
 
-  -- 新建窗口/分屏
-  { "<D-\\>", "<cmd>vsplit<cr>", desc = "Split Vertically (⌘\\)" },
-  { "<D-->", "<cmd>split<cr>", desc = "Split Horizontally (⌘-)" },
+  -- 窗口切换（Ctrl+方向键）
+  { "<C-h>", "<C-w>h", desc = "Focus Left Window" },
+  { "<C-j>", "<C-w>j", desc = "Focus Down Window" },
+  { "<C-k>", "<C-w>k", desc = "Focus Up Window" },
+  { "<C-l>", "<C-w>l", desc = "Focus Right Window" },
 
-  -- 窗口切换（Command+数字）
-  { "<D-1>", "<cmd>Neotree toggle<cr>", desc = "Toggle File Tree (⌘1)" },
-  { "<D-2>", "<cmd>Neotree focus<cr>", desc = "Focus File Tree (⌘2)" },
-  { "<D-3>", "<cmd>terminal<cr>", desc = "Toggle Terminal (⌘3)" },
+  -- 窗口切换（Command+数字由 bufferline 处理，见 ide-enhancements.lua）
 
   -- 标签页（Command+T）
   { "<D-t>", "<cmd>tabnew<cr>", desc = "New Tab (⌘T)" },
-  { "<D-[>", "<cmd>tabprevious<cr>", desc = "Previous Tab (⌘[)" },
-  { "<D-]>", "<cmd>tabnext<cr>", desc = "Next Tab (⌘])" },
-  { "<D-w>", "<cmd>tabclose<cr>", desc = "Close Tab (⌘W)" },
+  -- 注意: ⌘[ ⌘] ⌘1-5 由 bufferline 处理，见 ide-enhancements.lua
 
   -- ========================================
   -- 导航（Command 键）
   -- ========================================
 
   { "<D-b>", "<cmd>Telescope buffers<cr>", desc = "Show Buffers (⌘B)" },
-  { "<D-e>", "<cmd>Neotree toggle<cr>", desc = "Show Explorer (⌘E)" },
+  { "<D-e>", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = "File Browser (⌘E)" },
   { "<D-p>", "<cmd>Telescope find_files<cr>", desc = "Quick Open (⌘P)" },
   { "<D-0>", "<cmd>lua vim.lsp.buf.document_symbol()<cr>", desc = "Show Symbols (⌘0)" },
 
@@ -95,6 +93,11 @@ local keymaps = {
   { "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", desc = "Previous Diagnostic" },
   { "]d", "<cmd>Lspsaga diagnostic_jump_next<cr>", desc = "Next Diagnostic" },
   { "<leader>xd", "<cmd>Lspsaga show_line_diagnostics<cr>", desc = "Show Line Diagnostics" },
+
+  -- ========================================
+  -- Inlay Hints 切换
+  -- ========================================
+  { "<leader>uh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, desc = "Toggle Inlay Hints" },
 
   -- ========================================
   -- 调试（Command+Shift）
@@ -144,8 +147,10 @@ end
 -- 插入模式下的粘贴
 vim.keymap.set("i", "<C-v>", '<C-r>+', { desc = "Paste" })
 
--- 插入模式下的撤销
+-- 插入模式下的撤销/取消撤销
 vim.keymap.set("i", "<C-z>", '<C-o>u', { desc = "Undo" })
+vim.keymap.set("i", "<C-S-z>", '<C-o><C-r>', { desc = "Redo" })
+vim.keymap.set("i", "<C-y>", '<C-o><C-r>', { desc = "Redo (Alt)" })
 
 -- ========================================
 -- 命令模式下的快捷键
@@ -178,9 +183,21 @@ if vim.fn.has("macunix") == 1 then
 end
 
 -- ========================================
--- 保留的 Leader 键快捷键
+-- 彩虹拖尾快捷键
 -- ========================================
--- Space 键的快捷键仍然可用
+vim.keymap.set("n", "<leader>rc", function() require("rainbow_cursor").toggle() end, { desc = "Toggle Rainbow Cursor" })
+
+-- ========================================
+-- 流星魔法拖尾快捷键
+-- ========================================
+vim.keymap.set("n", "<leader>mc", function() require("meteor_cursor").toggle() end, { desc = "Toggle Meteor Cursor" })
+vim.keymap.set("n", "<leader>m1", function() require("meteor_cursor").start("gold") end, { desc = "Meteor: Gold" })
+vim.keymap.set("n", "<leader>m2", function() require("meteor_cursor").start("ice") end, { desc = "Meteor: Ice" })
+vim.keymap.set("n", "<leader>m3", function() require("meteor_cursor").start("purple") end, { desc = "Meteor: Purple" })
+vim.keymap.set("n", "<leader>m4", function() require("meteor_cursor").start("neon") end, { desc = "Meteor: Neon" })
+vim.keymap.set("n", "<leader>ms", function() require("meteor_cursor").toggle_sparkle() end, { desc = "Toggle Meteor Sparkle" })
+vim.keymap.set("n", "<leader>mi", function() require("meteor_cursor").status() end, { desc = "Meteor Status" })
+vim.keymap.set("n", "<leader>ml", function() require("meteor_cursor").list_palettes() end, { desc = "List Meteor Palettes" })
 
 -- ========================================
 -- 键盘延迟优化

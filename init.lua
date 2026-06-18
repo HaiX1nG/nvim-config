@@ -47,7 +47,13 @@ require("lazy").setup({
   },
 })
 
--- 启动彩虹光标效果
+-- 启动彩虹光标效果（默认）
+-- 如果想用流星效果，注释掉下面这行，取消注释 meteor_cursor 那行
 vim.schedule(function()
   require("rainbow_cursor").start()
 end)
+
+-- 启动流星魔法拖尾效果（可选，4种调色板: gold/ice/purple/neon）
+-- vim.schedule(function()
+--   require("meteor_cursor").start("gold")
+-- end)

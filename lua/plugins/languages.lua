@@ -68,12 +68,21 @@ return {
   },
 
   -- ====================
+  -- 编辑器增强 (LazyVim 官方 Extras)
+  -- ====================
+
+  -- Mini.diff - 更好的 diff 视图
+  { import = "lazyvim.plugins.extras.editor.mini-diff" },
+
+  -- Dial - 增强的增减操作 (Ctrl+A/X 智能切换)
+  { import = "lazyvim.plugins.extras.editor.dial" },
+
+  -- Inc-rename - 实时重命名预览
+  { import = "lazyvim.plugins.extras.editor.inc-rename" },
+
+  -- ====================
   -- 格式化和代码检查
   -- ====================
 
-  -- conform.nvim 格式化
-  { import = "lazyvim.plugins.extras.formatting.conform" },
-
-  -- nvim-lint 代码检查
-  { import = "lazyvim.plugins.extras.linting.nvim-lint" },
+  -- conform.nvim 和 nvim-lint 已内置在 LazyVim 中，无需额外导入
 }

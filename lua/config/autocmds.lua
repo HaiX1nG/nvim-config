@@ -18,11 +18,10 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- 自动保存（离开插入模式或切换缓冲区时）
-vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+-- 自动保存（只在离开插入模式时保存，避免格式化干扰实时诊断）
+vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = "*",
   callback = function(args)
-    -- 只在有修改且文件存在时保存
     if vim.bo[args.buf].modified and vim.bo[args.buf].buftype == "" then
       vim.api.nvim_buf_call(args.buf, function()
         vim.cmd("silent! write")
@@ -31,11 +30,11 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   end,
 })
 
--- 自动保存前格式化
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    -- 使用 LSP 格式化
-    vim.lsp.buf.format({ async = false, bufnr = args.buf })
-  end,
-})
+-- 保存前格式化（可选，按需启用）
+-- 注意：这可能会干扰实时诊断，建议使用手动格式化 (⌘I)
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   callback = function(args)
+--     vim.lsp.buf.format({ async = false, bufnr = args.buf })
+--   end,
+-- })

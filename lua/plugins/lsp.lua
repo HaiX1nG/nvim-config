@@ -36,6 +36,11 @@ return {
           end,
         },
       },
+      -- 全局启用 inlay hints
+      inlay_hints = {
+        enabled = true,
+        exclude = { "vue" },
+      },
       -- LSP 服务器配置
       servers = {
         -- Lua LSP (Neovim 开发)
@@ -53,6 +58,13 @@ return {
                 checkThirdParty = false,
               },
               telemetry = { enable = false },
+              hint = {
+                enable = true,
+                setType = true,
+                arrayType = "Enable",
+                paramName = "All",
+                semicolon = "Disable",
+              },
             },
           },
         },
@@ -62,7 +74,17 @@ return {
         cssls = {},
 
         -- Python (使用 pyright + ruff)
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoImportCompletions = true,
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+        },
         ruff = {
           cmd_env = { RUFF_TRACE = "messages" },
           init_options = {
@@ -114,6 +136,7 @@ return {
             "--completion-style=detailed",
             "--function-arg-placeholders",
             "--fallback-style=llvm",
+            "--inlay-hints",
           },
           filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
         },
@@ -125,26 +148,80 @@ return {
               inlayHints = {
                 enumMemberValues = { enabled = true },
                 functionLikeReturnTypes = { enabled = true },
-                parameterNames = { enabled = "literals" },
+                parameterNames = { enabled = "all" },
                 parameterTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
-                variableTypes = { enabled = false },
+                variableTypes = { enabled = true },
+              },
+            },
+            javascript = {
+              inlayHints = {
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = "all" },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = true },
               },
             },
           },
         },
 
         -- Vue
-        vue_ls = {},
+        vue_ls = {
+          settings = {
+            vue = {
+              inlayHints = {
+                inlineHandlerLeading = true,
+                missingProps = true,
+                optionsWrapper = false,
+              },
+            },
+          },
+        },
 
         -- Tailwind CSS
         tailwindcss = {},
 
         -- PHP
-        intelephense = {},
+        intelephense = {
+          settings = {
+            intelephense = {
+              environment = {
+                includePaths = { "vendor" },
+              },
+              diagnostics = {
+                enable = true,
+              },
+              format = {
+                enable = true,
+              },
+            },
+          },
+        },
 
         -- C# (.NET)
-        omnisharp = {},
+        omnisharp = {
+          settings = {
+            RoslynExtensionsOptions = {
+              EnableAnalyzersSupport = true,
+              InlayHintsOptions = {
+                EnableForParameters = true,
+                ForLiteralParameters = true,
+                ForObjectCreationParameters = true,
+                ForIndexerParameters = true,
+                ForOtherParameters = true,
+                EnableForTypes = true,
+                ForImplicitVariableTypes = true,
+                ForImplicitObjectCreation = true,
+                ForLambdaParameterTypes = true,
+              },
+            },
+          },
+        },
+
+        -- CMake
+        cmake = {},
       },
     },
   },
@@ -189,6 +266,28 @@ return {
         ui = {
           border = "rounded",
           winblend = 0,
+        },
+        -- 悬停文档增强
+        hover = {
+          max_width = 0.6,
+          max_height = 0.8,
+          open_link = "gx",
+          border = "rounded",
+        },
+        -- 诊断增强
+        diagnostic = {
+          border_follow = true,
+          show_source = true,
+          max_width = 0.6,
+          max_height = 0.6,
+        },
+        -- 符号大纲
+        symbol_in_winbar = {
+          enable = true,
+          separator = " > ",
+          hide_mode = 0,
+          show_file = true,
+          folder_level = 2,
         },
       })
     end,

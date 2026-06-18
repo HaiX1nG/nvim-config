@@ -51,7 +51,7 @@ return {
         cs = { "csharpier" },
       },
 
-      -- 格式化选项
+      -- 格式化选项 - 手动保存时格式化
       format_on_save = {
         timeout_ms = 500,
         lsp_fallback = true,

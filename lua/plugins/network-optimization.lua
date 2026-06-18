@@ -13,7 +13,7 @@ return {
       -- 安装设置
       install = {
         missing = true,
-        colorscheme = { "catppuccin", "habamax" },
+        colorscheme = { "hardhacker", "habamax" },
       },
 
       -- 性能优化
