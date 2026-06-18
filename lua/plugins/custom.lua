@@ -120,6 +120,13 @@ return {
         red      = "#E46876",      -- waveRed (柔和红)
         darkblue = "#2D4F67",      -- waveBlue2 (深蓝背景)
         violet   = "#957FB8",      -- oniViolet (紫)
+        -- 状态栏区域背景色
+        bg_a     = "#363646",      -- sumiInk5 (A区背景)
+        bg_b     = "#2A2A37",      -- sumiInk4 (B区背景)
+        bg_c     = "#1F1F28",      -- sumiInk3 (C区背景)
+        bg_x     = "#2A2A37",      -- X区背景
+        bg_y     = "#363646",      -- Y区背景)
+        bg_z     = "#2A2A37",      -- Z区背景
       }
 
       -- 自定义模式显示
@@ -257,12 +264,13 @@ return {
       local branch = {
         "branch",
         icon = " ",
-        color = { fg = colors.violet, gui = "bold" },
+        color = { fg = colors.violet, bg = colors.bg_b, gui = "bold" },
       }
 
       -- 自定义位置（行:列）
       local location = {
         "location",
+        color = { fg = colors.fg, bg = colors.bg_z },
         padding = { left = 0, right = 1 },
       }
 
@@ -273,7 +281,7 @@ return {
           -- lualine 的 progress 组件返回 "65%" 格式，直接返回即可
           return str
         end,
-        color = { fg = colors.fg, gui = "bold" },
+        color = { fg = colors.fg, bg = colors.bg_y, gui = "bold" },
       }
 
       -- 自定义文件编码
@@ -282,7 +290,7 @@ return {
         fmt = function(str)
           return str:upper()
         end,
-        color = { fg = colors.cyan },
+        color = { fg = colors.cyan, bg = colors.bg_x },
       }
 
       -- 自定义文件格式
@@ -293,7 +301,7 @@ return {
           dos  = " ",
           mac  = " ",
         },
-        color = { fg = colors.yellow },
+        color = { fg = colors.yellow, bg = colors.bg_x },
       }
 
       -- 自定义文件类型
@@ -301,7 +309,7 @@ return {
         "filetype",
         icon_only = false,
         colored = true,
-        color = { fg = colors.fg },
+        color = { fg = colors.fg, bg = colors.bg_x },
       }
 
       -- CPU/MEM 监控组件（带颜色）
@@ -319,15 +327,15 @@ return {
               local cpu = tonumber(cpu_str)
               local mem = math.floor(tonumber(mem_kb) / 1024)
               if cpu > 80 or mem > 500 then
-                return { fg = colors.red, gui = "bold" }
+                return { fg = colors.red, bg = colors.bg_z, gui = "bold" }
               elseif cpu > 50 or mem > 200 then
-                return { fg = colors.yellow }
+                return { fg = colors.yellow, bg = colors.bg_z }
               else
-                return { fg = colors.green }
+                return { fg = colors.green, bg = colors.bg_z }
               end
             end
           end
-          return { fg = colors.green }
+          return { fg = colors.green, bg = colors.bg_z }
         end,
         icon = " ",
       }
@@ -340,7 +348,7 @@ return {
         end,
         color = function()
           local mode = vim.fn.mode()
-          return { fg = mode_color[mode] or colors.green, bg = colors.darkblue, gui = "bold" }
+          return { fg = mode_color[mode] or colors.green, bg = colors.bg_a, gui = "bold" }
         end,
         padding = { left = 1, right = 1 },
       }
@@ -384,11 +392,11 @@ return {
             diagnostics,
           },
           lualine_c = {
-            custom_filename,
-            { lsp_status, color = { fg = colors.cyan } },
+            { custom_filename, color = { fg = colors.fg, bg = colors.bg_c } },
+            { lsp_status, color = { fg = colors.cyan, bg = colors.bg_c } },
           },
           lualine_x = {
-            file_size,
+            { file_size, color = { fg = colors.fg, bg = colors.bg_x } },
             encoding,
             fileformat,
             filetype,
